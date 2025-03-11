@@ -528,4 +528,200 @@ def decode_sol_token_account(data: str) -> Dict[str, Any]:
 SOLANA_PROGRAM_IDS = {
     "token": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
     "associated_token": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL",
-    "system": "11111111111
+    "system": "11111111111111111111111111111111",
+    "stake": "Stake11111111111111111111111111111111111111",
+    "vote": "Vote111111111111111111111111111111111111111",
+    "bpf_loader": "BPFLoaderUpgradeab1e11111111111111111111111",
+    "config": "Config1111111111111111111111111111111111111",
+    "serum_dex_v3": "9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin",
+    "memo": "MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr",
+    "metadata": "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s",
+    "name_service": "namesLPneVptA9Z5rqUDD9tMTWEJwofgaYwp8cawRkX",
+    "raydium_amm": "675kPX9MHTjS2zt1qfr1NYHuzeLXfQM9H24wFSUt1Mp8",
+    "wormhole": "worm2ZoG2kUd4vFXhvjh93UUH596ayRfgQ2MgjNMTth",
+    "marinade": "MarBmsSgKXdrN1egZf5sqe1TMai9K1rChYNDJgjq7aD",
+    "jupiter_aggregator": "JUP6i4ozu5ydDCnLiMogSckDPpbtr7BJ4FtzYWkb5Rk",
+    "pyth": "FsJ3A3u2vn5cTVofAjvy6y5kwABJAqYWpe4975bi2epH"
+}
+
+# =========================
+# NFT Utilities
+# =========================
+
+def get_sol_nft_metadata(client, mint_address: str) -> Dict[str, Any]:
+    """Get Solana NFT metadata.
+    
+    Args:
+        client: Solana client
+        mint_address: NFT mint address
+        
+    Returns:
+        NFT metadata
+    """
+    try:
+        # Metadata program ID
+        metadata_program_id = SOLANA_PROGRAM_IDS["metadata"]
+        
+        # Calculate metadata account address
+        import hashlib
+        seeds = [
+            b"metadata",
+            bytes(metadata_program_id, "utf-8"),
+            base58.b58decode(mint_address)
+        ]
+        
+        # Find program derived address
+        # This is simplified and may not match the actual implementation
+        seed_bytes = b"".join(seeds)
+        metadata_address_bytes = hashlib.sha256(seed_bytes).digest()[:32]
+        metadata_address = base58.b58encode(metadata_address_bytes).decode("utf-8")
+        
+        # Get metadata account
+        metadata_account = get_sol_account_info(client, metadata_address)
+        
+        if "error" in metadata_account:
+            return {
+                "error": f"Failed to get metadata account: {metadata_account['error']}",
+                "mint": mint_address
+            }
+        
+        # Parse metadata
+        # This is a placeholder - actual implementation would parse the account data
+        # according to the Metaplex metadata schema
+        return {
+            "mint": mint_address,
+            "metadata_address": metadata_address,
+            "raw_data": metadata_account.get("data"),
+            "parsed": "Metadata parsing not implemented yet"
+        }
+    except Exception as e:
+        logger.error(f"Failed to get NFT metadata: {str(e)}")
+        return {
+            "error": f"Failed to get NFT metadata: {str(e)}",
+            "mint": mint_address
+        }
+
+def get_sol_token_metadata(client, mint_address: str) -> Dict[str, Any]:
+    """Get Solana token metadata.
+    
+    Args:
+        client: Solana client
+        mint_address: Token mint address
+        
+    Returns:
+        Token metadata
+    """
+    try:
+        # First get the mint account info
+        mint_account = get_sol_account_info(client, mint_address)
+        
+        if "error" in mint_account:
+            return mint_account
+        
+        # Then try to get metadata account (same as NFT metadata)
+        metadata = get_sol_nft_metadata(client, mint_address)
+        
+        # Combine information
+        token_info = {
+            "mint": mint_address,
+            "decimals": None,  # Would require parsing mint account data
+            "supply": None,    # Would require parsing mint account data
+            "metadata": metadata if "error" not in metadata else None
+        }
+        
+        return token_info
+    except Exception as e:
+        logger.error(f"Failed to get token metadata: {str(e)}")
+        return {
+            "error": f"Failed to get token metadata: {str(e)}",
+            "mint": mint_address
+        }
+
+# =========================
+# Common Solana Constants
+# =========================
+
+# Standard rent exemption for accounts in lamports
+SOLANA_RENT_EXEMPTION = {
+    "account": 2039280,  # Standard account (for small data)
+    "token_account": 2039280,  # Token account
+    "mint": 1461600,  # Mint account
+}
+
+# Common commitment levels
+SOLANA_COMMITMENT_LEVELS = [
+    "processed",  # Processed by current node but not confirmed
+    "confirmed",  # Confirmed by supermajority of the cluster
+    "finalized",  # Finalized by the cluster
+]
+
+# Epochs per year (approximate)
+SOLANA_EPOCHS_PER_YEAR = 365 * 2  # ~2 days per epoch
+
+# Current solana URL endpoints
+SOLANA_RPC_ENDPOINTS = {
+    "mainnet": [
+        "https://api.mainnet-beta.solana.com",
+        "https://solana-api.projectserum.com",
+        "https://rpc.ankr.com/solana",
+        "https://api.metaplex.solana.com"
+    ],
+    "devnet": [
+        "https://api.devnet.solana.com"
+    ],
+    "testnet": [
+        "https://api.testnet.solana.com"
+    ],
+    "localnet": [
+        "http://localhost:8899"
+    ]
+}
+
+# Public key of token program
+TOKEN_PROGRAM_ID = SOLANA_PROGRAM_IDS["token"]
+
+# Public key of associated token program
+ASSOCIATED_TOKEN_PROGRAM_ID = SOLANA_PROGRAM_IDS["associated_token"]
+
+# =========================
+# Transaction Building Helpers
+# =========================
+
+def calculate_sol_transaction_size(
+    num_signatures: int,
+    num_instructions: int,
+    instruction_data_size: int
+) -> int:
+    """Calculate the size of a Solana transaction.
+    
+    Args:
+        num_signatures: Number of signatures
+        num_instructions: Number of instructions
+        instruction_data_size: Total size of instruction data
+        
+    Returns:
+        Transaction size in bytes
+    """
+    # Signature size
+    signature_size = 64
+    
+    # Base transaction size
+    base_size = 1 + 1 + signature_size * num_signatures + 32 + 8 + 1
+    
+    # Instruction size
+    instruction_size = num_instructions * (1 + 1 + 32 + 1 + instruction_data_size)
+    
+    return base_size + instruction_size
+
+def encode_sol_instruction_data(instruction_data: Dict[str, Any]) -> bytes:
+    """Encode Solana instruction data.
+    
+    Args:
+        instruction_data: Instruction data
+        
+    Returns:
+        Encoded instruction data
+    """
+    # This is a placeholder - actual implementation would depend on the format
+    # of the instruction data and the specific program being called
+    return b''
