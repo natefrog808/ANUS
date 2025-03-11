@@ -1,22 +1,59 @@
 """
-Anus AI Web3 Society - Multi-Agent Setup for Web3 Applications
+Web3Society for Anus AI
 
-This module implements a specialized multi-agent society for complex Web3 tasks.
+This module implements a specialized multi-agent society for Web3 tasks,
+combining different agent roles for comprehensive blockchain and DeFi operations.
 """
 
-from typing import Dict, Any, List, Optional, Union
+import os
 import json
+import time
+import logging
+from typing import Dict, Any, List, Optional, Union, Tuple
+from decimal import Decimal
 
 from anus.society import Society
 from anus.agents import Agent
-from anus.web3 import Web3Agent, Web3ConnectionTool, SmartContractTool, TokenTool, NFTTool, DeFiTool
+from anus.utils.logging import get_logger
+from anus.core.config import ConfigDict
+
+from anus.web3.agent import Web3Agent
+from anus.web3.tools import (
+    Web3ConnectionTool,
+    SmartContractTool,
+    TokenTool,
+    NFTTool,
+    DeFiTool,
+    ENSTool,
+    IPFSTool
+)
+
+# Setup logger
+logger = get_logger("anus.web3.society")
 
 
 class Web3Society(Society):
-    """A specialized society of agents for Web3 tasks."""
+    """A specialized society of agents for Web3 tasks.
+    
+    The Web3Society combines multiple specialized agents to perform complex
+    blockchain and DeFi tasks through collaboration.
+    
+    Attributes:
+        web3_agent: The core Web3 agent
+        blockchain_analyst: Agent specialized in blockchain data analysis
+        smart_contract_expert: Agent specialized in smart contract development and auditing
+        defi_specialist: Agent specialized in DeFi protocols and strategies
+        nft_specialist: Agent specialized in NFT markets and collections
+        research_agent: Agent specialized in Web3 research and documentation
+    """
     
     def __init__(self, config: Optional[Dict[str, Any]] = None):
-        """Initialize a Web3Society with specialized agents for different Web3 domains."""
+        """Initialize a Web3Society with specialized agents for different Web3 domains.
+        
+        Args:
+            config: Configuration dictionary for the society and its agents
+        """
+        logger.info("Initializing Web3Society")
         self.config = config or {}
         
         # Create the core Web3 agent
@@ -48,9 +85,12 @@ class Web3Society(Society):
         
         # Share connection tools among agents that need them
         self._share_web3_connections()
+        
+        logger.info("Web3Society initialized with %d agents", len(agents))
     
     def _create_blockchain_analyst(self) -> Agent:
         """Create an agent specialized in blockchain data analysis."""
+        logger.info("Creating blockchain analyst agent")
         return Agent(
             role="blockchain_analyst",
             tools=["code", "document", "search"],
@@ -61,12 +101,14 @@ class Web3Society(Society):
             },
             description=(
                 "Specializes in analyzing blockchain data, transactions, and patterns. "
-                "Executes data processing and visualizations on blockchain metrics."
+                "Executes data processing and visualizations on blockchain metrics. "
+                "Expert in on-chain analytics and transaction forensics."
             )
         )
     
     def _create_smart_contract_expert(self) -> Agent:
         """Create an agent specialized in smart contract analysis and development."""
+        logger.info("Creating smart contract expert agent")
         # Get the connection tool from the web3 agent
         connection_tool = self.web3_agent.connection_tool
         contract_tool = SmartContractTool(connection_tool)
@@ -81,7 +123,8 @@ class Web3Society(Society):
             },
             description=(
                 "Specializes in smart contract development, auditing, and analysis. "
-                "Provides code reviews and identifies potential vulnerabilities."
+                "Provides code reviews and identifies potential vulnerabilities. "
+                "Expert in Solidity, EVM, and security best practices."
             )
         )
         
@@ -92,6 +135,7 @@ class Web3Society(Society):
     
     def _create_defi_specialist(self) -> Agent:
         """Create an agent specialized in DeFi protocols and strategies."""
+        logger.info("Creating DeFi specialist agent")
         # Get tools from the web3 agent
         connection_tool = self.web3_agent.connection_tool
         contract_tool = next((tool for tool in self.web3_agent.tools if tool.name == "smart_contract"), None)
@@ -110,7 +154,8 @@ class Web3Society(Society):
             },
             description=(
                 "Specializes in decentralized finance protocols, yield strategies, and liquidity analysis. "
-                "Provides insights on optimal strategies for different market conditions."
+                "Provides insights on optimal strategies for different market conditions. "
+                "Expert in AMMs, lending protocols, yield farming, and risk assessment."
             )
         )
         
@@ -121,6 +166,7 @@ class Web3Society(Society):
     
     def _create_nft_specialist(self) -> Agent:
         """Create an agent specialized in NFTs and digital collectibles."""
+        logger.info("Creating NFT specialist agent")
         # Get tools from the web3 agent
         connection_tool = self.web3_agent.connection_tool
         contract_tool = next((tool for tool in self.web3_agent.tools if tool.name == "smart_contract"), None)
@@ -138,7 +184,8 @@ class Web3Society(Society):
             },
             description=(
                 "Specializes in NFT markets, collections, and trends. "
-                "Provides analysis on NFT projects, rarity, and valuation."
+                "Provides analysis on NFT projects, rarity, and valuation. "
+                "Expert in digital art, collectibles, and NFT marketplaces."
             )
         )
         
@@ -149,6 +196,7 @@ class Web3Society(Society):
     
     def _create_research_agent(self) -> Agent:
         """Create an agent specialized in Web3 research and documentation."""
+        logger.info("Creating Web3 researcher agent")
         return Agent(
             role="web3_researcher",
             tools=["search", "browser", "document"],
@@ -159,12 +207,14 @@ class Web3Society(Society):
             },
             description=(
                 "Specializes in researching Web3 projects, protocols, and trends. "
-                "Gathers information, creates documentation, and stays updated on industry developments."
+                "Gathers information, creates documentation, and stays updated on industry developments. "
+                "Expert in blockchain ecosystems, tokenomics, and project evaluation."
             )
         )
     
     def _share_web3_connections(self):
         """Share Web3 connection tools among agents to avoid duplicating connections."""
+        logger.info("Sharing Web3 connections among agents")
         # This method ensures that all agents use the same connection instances
         # for efficiency and consistency
         connection_tool = self.web3_agent.connection_tool
@@ -173,11 +223,19 @@ class Web3Society(Society):
         pass
     
     def analyze_wallet(self, address: str, networks: Optional[List[str]] = None) -> Dict[str, Any]:
-        """Perform comprehensive wallet analysis across multiple networks."""
+        """Perform comprehensive wallet analysis across multiple networks.
+        
+        Args:
+            address: The wallet address to analyze
+            networks: List of networks to analyze (defaults to ["ethereum"])
+            
+        Returns:
+            Dict containing wallet analysis
+        """
         if networks is None:
             networks = ["ethereum"]
         
-        task = f"Analyze the wallet {address} across {', '.join(networks)} networks."
+        logger.info("Analyzing wallet %s across %s networks", address, ", ".join(networks))
         
         # First, gather basic information using the Web3 agent
         basic_info = self.web3_agent.wallet_status(address, networks)
@@ -201,11 +259,26 @@ class Web3Society(Society):
             "address": address,
             "networks": networks,
             "basic_info": basic_info,
-            "analysis": analysis
+            "analysis": analysis,
+            "timestamp": int(time.time())
         }
     
-    def assess_smart_contract(self, contract_address: str, network: str = "ethereum") -> Dict[str, Any]:
-        """Assess a smart contract for security, efficiency, and functionality."""
+    def assess_smart_contract(self, contract_address: str, network: str = "ethereum", network_type: str = "mainnet") -> Dict[str, Any]:
+        """Assess a smart contract for security, efficiency, and functionality.
+        
+        Args:
+            contract_address: The contract address to assess
+            network: The blockchain network
+            network_type: The network type
+            
+        Returns:
+            Dict containing contract assessment
+        """
+        logger.info("Assessing smart contract %s on %s", contract_address, network)
+        
+        # First, connect to the network
+        self.web3_agent.connect_wallet(network, network_type)
+        
         task = (
             f"Perform a comprehensive assessment of smart contract at address {contract_address} "
             f"on {network} network.\n\n"
@@ -221,11 +294,23 @@ class Web3Society(Society):
         return {
             "contract_address": contract_address,
             "network": network,
-            "assessment": assessment
+            "network_type": network_type,
+            "assessment": assessment,
+            "timestamp": int(time.time())
         }
     
     def analyze_defi_protocol(self, protocol_name: str, contract_addresses: Optional[List[str]] = None) -> Dict[str, Any]:
-        """Analyze a DeFi protocol in detail."""
+        """Analyze a DeFi protocol in detail.
+        
+        Args:
+            protocol_name: The name of the protocol to analyze
+            contract_addresses: Optional list of contract addresses related to the protocol
+            
+        Returns:
+            Dict containing protocol analysis
+        """
+        logger.info("Analyzing DeFi protocol %s", protocol_name)
+        
         addresses_info = ""
         if contract_addresses:
             addresses_info = f"Key contract addresses: {', '.join(contract_addresses)}\n"
@@ -246,11 +331,27 @@ class Web3Society(Society):
         return {
             "protocol_name": protocol_name,
             "contract_addresses": contract_addresses,
-            "analysis": analysis
+            "analysis": analysis,
+            "timestamp": int(time.time())
         }
     
-    def monitor_nft_collection(self, collection_address: str, network: str = "ethereum", period: str = "7d") -> Dict[str, Any]:
-        """Monitor and analyze an NFT collection, including recent sales and trends."""
+    def monitor_nft_collection(self, collection_address: str, network: str = "ethereum", network_type: str = "mainnet", period: str = "7d") -> Dict[str, Any]:
+        """Monitor and analyze an NFT collection, including recent sales and trends.
+        
+        Args:
+            collection_address: The NFT collection address
+            network: The blockchain network
+            network_type: The network type
+            period: The time period to analyze (e.g., "7d" for 7 days)
+            
+        Returns:
+            Dict containing collection analysis
+        """
+        logger.info("Monitoring NFT collection %s on %s for period %s", collection_address, network, period)
+        
+        # First, connect to the network
+        self.web3_agent.connect_wallet(network, network_type)
+        
         task = (
             f"Monitor and analyze the NFT collection at address {collection_address} on {network} network "
             f"for the past {period}.\n\n"
@@ -267,12 +368,24 @@ class Web3Society(Society):
         return {
             "collection_address": collection_address,
             "network": network,
+            "network_type": network_type,
             "period": period,
-            "analysis": analysis
+            "analysis": analysis,
+            "timestamp": int(time.time())
         }
     
     def draft_smart_contract(self, requirements: str, contract_type: str) -> Dict[str, Any]:
-        """Draft a smart contract based on provided requirements."""
+        """Draft a smart contract based on provided requirements.
+        
+        Args:
+            requirements: The requirements for the contract
+            contract_type: The type of contract to draft
+            
+        Returns:
+            Dict containing contract draft
+        """
+        logger.info("Drafting %s smart contract", contract_type)
+        
         task = (
             f"Draft a {contract_type} smart contract with the following requirements:\n\n"
             f"{requirements}\n\n"
@@ -289,11 +402,23 @@ class Web3Society(Society):
         return {
             "contract_type": contract_type,
             "requirements": requirements,
-            "draft": draft
+            "draft": draft,
+            "timestamp": int(time.time())
         }
     
     def create_defi_strategy(self, investment_amount: float, risk_profile: str, tokens: List[str] = None) -> Dict[str, Any]:
-        """Create a DeFi investment strategy based on user parameters."""
+        """Create a DeFi investment strategy based on user parameters.
+        
+        Args:
+            investment_amount: The amount to invest
+            risk_profile: The risk profile (e.g., "conservative", "moderate", "aggressive")
+            tokens: Optional list of tokens of interest
+            
+        Returns:
+            Dict containing strategy recommendation
+        """
+        logger.info("Creating DeFi strategy with %s risk profile for $%s", risk_profile, investment_amount)
+        
         tokens_list = ", ".join(tokens) if tokens else "various tokens"
         
         task = (
@@ -316,14 +441,34 @@ class Web3Society(Society):
             "investment_amount": investment_amount,
             "risk_profile": risk_profile,
             "tokens": tokens,
-            "strategy": strategy
+            "strategy": strategy,
+            "timestamp": int(time.time())
         }
     
-    def analyze_token_economics(self, token_address: str, network: str = "ethereum") -> Dict[str, Any]:
-        """Analyze tokenomics of a specific token."""
+    def analyze_token_economics(self, token_address: str, network: str = "ethereum", network_type: str = "mainnet") -> Dict[str, Any]:
+        """Analyze tokenomics of a specific token.
+        
+        Args:
+            token_address: The token address to analyze
+            network: The blockchain network
+            network_type: The network type
+            
+        Returns:
+            Dict containing tokenomics analysis
+        """
+        logger.info("Analyzing tokenomics for %s on %s", token_address, network)
+        
+        # First, connect to the network
+        self.web3_agent.connect_wallet(network, network_type)
+        
+        # Get basic token info
+        token_info = self.web3_agent.token_info(token_address, network, network_type)
+        
         task = (
             f"Analyze the tokenomics and fundamentals of the token at address {token_address} "
             f"on {network} network.\n\n"
+            f"Token Info: {json.dumps(token_info, indent=2)}\n\n"
+            f"Provide analysis on:\n"
             f"1. Supply and distribution metrics\n"
             f"2. Utility and use cases\n"
             f"3. Governance mechanisms\n"
@@ -338,5 +483,85 @@ class Web3Society(Society):
         return {
             "token_address": token_address,
             "network": network,
-            "analysis": analysis
+            "network_type": network_type,
+            "token_info": token_info,
+            "analysis": analysis,
+            "timestamp": int(time.time())
+        }
+    
+    def research_web3_topic(self, topic: str, depth: str = "comprehensive") -> Dict[str, Any]:
+        """Research a Web3-related topic comprehensively.
+        
+        Args:
+            topic: The topic to research
+            depth: The depth of research ("brief", "standard", "comprehensive")
+            
+        Returns:
+            Dict containing research results
+        """
+        logger.info("Researching Web3 topic: %s (depth: %s)", topic, depth)
+        
+        detail_level = {
+            "brief": "Provide a concise overview with key points",
+            "standard": "Provide a balanced analysis with moderate detail",
+            "comprehensive": "Provide an in-depth analysis with extensive detail"
+        }.get(depth, "Provide a balanced analysis with moderate detail")
+        
+        task = (
+            f"Research the Web3 topic: {topic}\n\n"
+            f"{detail_level}. Include:\n"
+            f"1. Background and context\n"
+            f"2. Current state and developments\n"
+            f"3. Key projects and implementations\n"
+            f"4. Technical aspects and challenges\n"
+            f"5. Market implications\n"
+            f"6. Future outlook and opportunities"
+        )
+        
+        research = self.run(task)
+        
+        return {
+            "topic": topic,
+            "depth": depth,
+            "research": research,
+            "timestamp": int(time.time())
+        }
+    
+    def develop_dapp_concept(self, problem_statement: str, target_users: str, blockchain: str = "ethereum") -> Dict[str, Any]:
+        """Develop a comprehensive dApp concept based on requirements.
+        
+        Args:
+            problem_statement: The problem the dApp will solve
+            target_users: Description of target users
+            blockchain: The blockchain platform
+            
+        Returns:
+            Dict containing dApp concept
+        """
+        logger.info("Developing dApp concept for blockchain %s", blockchain)
+        
+        task = (
+            f"Develop a comprehensive decentralized application (dApp) concept with the following parameters:\n\n"
+            f"Problem Statement: {problem_statement}\n"
+            f"Target Users: {target_users}\n"
+            f"Blockchain Platform: {blockchain}\n\n"
+            f"Provide:\n"
+            f"1. Executive summary\n"
+            f"2. Detailed solution architecture\n"
+            f"3. Smart contract design\n"
+            f"4. User interface mockups\n"
+            f"5. Technical implementation roadmap\n"
+            f"6. Token economics (if applicable)\n"
+            f"7. Market strategy\n"
+            f"8. Potential challenges and solutions"
+        )
+        
+        concept = self.run(task)
+        
+        return {
+            "problem_statement": problem_statement,
+            "target_users": target_users,
+            "blockchain": blockchain,
+            "concept": concept,
+            "timestamp": int(time.time())
         }
