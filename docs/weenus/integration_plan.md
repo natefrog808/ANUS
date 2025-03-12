@@ -1,4 +1,4 @@
-# Anus AI Web3 Ecosystem Integration Plan
+# Weenus: Web3 Enhanced Anus AI Ecosystem Integration Plan
 
 ## Overview
 
