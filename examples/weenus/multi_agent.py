@@ -331,4 +331,453 @@ def example_interactive_collaboration(society: Web3Society):
     - Liquidity mining program with 2-week epochs and adjustable rewards
     
     ## Governance System
-    - Quadratic voting based on token
+    - Quadratic voting based on token holdings and staking duration
+    - Proposal threshold of 1% of circulating supply
+    - Two-stage voting: temperature check followed by binding vote
+    - On-chain execution for passed proposals after timelock
+    
+    ## Marketing Approach
+    - Community-first approach with incentivized ambassador program
+    - Technical documentation and security audits for institutional users
+    - Educational content series explaining protocol benefits
+    - Participation in DeFi conferences and hackathons
+    - Strategic partnerships with existing protocols for integration
+    """
+    
+    # Display a summary
+    logger.info("Collaborative strategy creation completed.")
+    
+    # Show the first few lines
+    summary_lines = simulated_response.split("\n")[:6]
+    logger.info("Strategy summary (first few lines):")
+    for line in summary_lines:
+        logger.info(f"  {line}")
+    
+    return {
+        "task": task,
+        "contributions": {
+            "research_agent": research_output,
+            "smart_contract_expert": contract_output,
+            "defi_specialist": defi_output,
+            "blockchain_analyst": analyst_output
+        },
+        "final_output": simulated_response
+    }
+
+def example_dapp_development_concept(society: Web3Society):
+    """Example: Develop a dApp concept with multi-agent collaboration."""
+    logger.info("\n=== Example: dApp Development Concept ===")
+    
+    # Challenge to solve with the dApp
+    problem_statement = """
+    Create a decentralized application that helps small-scale farmers in developing
+    regions access fair financing and global markets, while providing transparency
+    to consumers about the origin and journey of agricultural products.
+    """
+    
+    # Target users definition
+    target_users = """
+    Primary users are small-scale farmers with limited access to traditional banking
+    and global markets, as well as conscious consumers who want transparency about
+    product origins and fair compensation for producers.
+    """
+    
+    logger.info("Developing a dApp concept for agricultural supply chain finance...")
+    logger.info(f"This will take some time as it requires multiple agent collaboration.")
+    
+    # In a real implementation, we would call society.develop_dapp_concept()
+    # But for this demo, we'll simulate the result
+    
+    # Simulate the development process
+    logger.info("Web3 Agent: Analyzing blockchain requirements...")
+    logger.info("Smart Contract Expert: Designing token and contract architecture...")
+    logger.info("Research Agent: Exploring similar solutions and best practices...")
+    logger.info("Blockchain Analyst: Determining feasible economic model...")
+    
+    # Simulated response from the society
+    simulated_response = """
+    # AgriChain: Decentralized Agricultural Finance and Supply Chain Platform
+    
+    ## Executive Summary
+    
+    AgriChain is a decentralized application that connects small-scale farmers directly to global markets and fair financing options through blockchain technology. It provides complete supply chain transparency, enables microfinancing through yield-bearing stablecoin pools, and creates digital identities and reputational collateral for unbanked farmers.
+    
+    ## Solution Architecture
+    
+    ### Blockchain Layer
+    - **Primary Chain**: Polygon for low transaction costs and high throughput
+    - **Cross-Chain Bridges**: Integration with Ethereum for liquidity and Chainlink for oracle services
+    - **Layer 2 Support**: ZK-rollups for batch processing of supply chain updates
+    
+    ### Smart Contract Components
+    
+    1. **Digital Identity System**
+       - Self-sovereign identity contracts for farmers with reputation scoring
+       - Verifiable credentials for certifications (organic, fair trade, etc.)
+       - Privacy-preserving zero-knowledge proofs for sensitive data
+    
+    2. **Supply Chain Tracking**
+       - Product tokenization with batch NFTs representing harvest lots
+       - QR code and RFID integration for physical-digital linking
+       - Environmental sensor integration via IoT oracles
+    
+    3. **Financial Protocols**
+       - Yield-generating stablecoin lending pools for microfinance
+       - Reputation-based credit scoring algorithm
+       - Invoice factoring marketplace for immediate liquidity
+       - Parametric crop insurance using weather oracles
+    
+    4. **Marketplace**
+       - Direct farmer-to-business and farmer-to-consumer marketplace
+       - Auction mechanisms for specialty crops
+       - Future harvest rights tokenization
+    
+    ## User Interface Mockups
+    
+    ### Farmer Mobile App
+    - Simplified UI requiring minimal technical knowledge
+    - Offline functionality with transaction batching
+    - Multi-language support with voice interfaces
+    - QR code scanning for physical product registration
+    - Dashboard showing loans, current crop token value, and reputation score
+    
+    ### Consumer Interface
+    - Product provenance explorer showing journey from farm to table
+    - Impact dashboard showing farmer benefit from purchases
+    - Direct tipping mechanism to farmers
+    - Subscription options for future harvests
+    
+    ### Investor/Lender Dashboard
+    - Portfolio management of agricultural microloans
+    - Risk assessment tools and diversification options
+    - Impact metrics and reporting
+    - Automated yield distribution tracking
+    
+    ## Technical Implementation Roadmap
+    
+    ### Phase 1: Foundation (3 months)
+    - Digital identity contracts and mobile app development
+    - Supply chain tracking MVP
+    - Integration with existing payment rails
+    
+    ### Phase 2: Financial Layer (4 months)
+    - Lending pool implementation
+    - Credit scoring algorithm deployment
+    - Invoice factoring marketplace
+    
+    ### Phase 3: Marketplace (3 months)
+    - Direct sales platform
+    - Consumer-facing product provenance explorer
+    - Future harvest tokenization
+    
+    ### Phase 4: Scaling (6 months)
+    - Cross-chain integration
+    - IoT oracle development
+    - Advanced analytics and machine learning integration
+    
+    ## Token Economics
+    
+    ### AGRI Governance Token
+    - Utility for platform governance and fee discounts
+    - Staking for participation in validation and dispute resolution
+    - Rewards for lenders providing capital to the system
+    
+    ### Harvest Tokens
+    - NFTs representing specific crop batches
+    - Fractionalized ownership options
+    - Yield-bearing based on actual market sales
+    
+    ### Reputation Tokens (Soul-bound)
+    - Non-transferable tokens representing farmer reliability
+    - Affects loan terms and marketplace visibility
+    - Earnable through successful harvests and loan repayments
+    
+    ## Challenges and Solutions
+    
+    ### Limited Internet Access
+    - Progressive Web App with offline functionality
+    - SMS-based transaction submission in regions with limited data
+    - Local validation nodes in farming communities
+    
+    ### Education and Onboarding
+    - In-person training through agricultural extension partnerships
+    - Simple pictographic interfaces requiring minimal literacy
+    - Community ambassadors program
+    
+    ### Regulatory Compliance
+    - KYC/AML compliance through decentralized identity verification
+    - Multi-jurisdictional legal wrapper entities
+    - Modular compliance plugins for different regions
+    
+    ## Market Strategy
+    
+    - Initial pilot in East Africa with coffee and cacao farmers
+    - Partnership with existing agricultural cooperatives
+    - Integration with conscious consumer brands for end-market access
+    - Phased expansion to Southeast Asia and Latin America
+    """
+    
+    # Display a summary
+    logger.info("dApp concept development completed.")
+    
+    # Show the first few lines
+    summary_lines = simulated_response.split("\n")[:6]
+    logger.info("Concept summary (first few lines):")
+    for line in summary_lines:
+        logger.info(f"  {line}")
+    
+    return {
+        "problem_statement": problem_statement,
+        "target_users": target_users,
+        "concept": simulated_response
+    }
+
+def example_research_report(society: Web3Society):
+    """Example: Generate a comprehensive research report on a Web3 topic."""
+    logger.info("\n=== Example: Web3 Research Report ===")
+    
+    # Research topic
+    topic = "The Impact of Account Abstraction (EIP-4337) on DeFi User Experience"
+    
+    logger.info(f"Researching topic: {topic}")
+    logger.info(f"This will take some time as it requires multiple agent collaboration.")
+    
+    # In a real implementation, we would call society.research_web3_topic()
+    # But for this demo, we'll simulate the result
+    
+    # Simulate the research process
+    logger.info("Research Agent: Gathering academic and technical sources...")
+    logger.info("Web3 Agent: Analyzing on-chain implementation details...")
+    logger.info("Smart Contract Expert: Reviewing security implications...")
+    logger.info("DeFi Specialist: Assessing impact on protocols...")
+    
+    # Simulated response from the society
+    simulated_response = """
+    # The Impact of Account Abstraction (EIP-4337) on DeFi User Experience
+    
+    ## Executive Summary
+    
+    Account Abstraction (AA) as implemented through EIP-4337 represents a fundamental shift in how users interact with blockchain applications, particularly in DeFi. By separating authentication from transaction logic, AA enables significant UX improvements through features like session keys, batch transactions, sponsored gas, and account recovery mechanisms. This research examines the current state of AA adoption, implementation patterns, security considerations, and projected impact on DeFi user growth and retention.
+    
+    ## Introduction
+    
+    Ethereum Improvement Proposal 4337 (EIP-4337) introduced a standardized approach to account abstraction without requiring consensus-layer changes to Ethereum. Since its implementation in March 2023, the ecosystem has seen growing adoption, with over 15 million smart contract wallets deployed using this standard as of February 2025.
+    
+    Account abstraction addresses several fundamental UX friction points in DeFi:
+    - Complex private key management and recovery
+    - Gas payment requirements in the native token
+    - Single-operation transaction limitations
+    - Poor mobile experience
+    
+    ## Technical Implementation Analysis
+    
+    ### Core Components
+    
+    1. **User Operation**: Replaces traditional transactions with a new structure that separates signature from execution
+    2. **Bundlers**: Specialized actors who collect and submit user operations to the mempool
+    3. **Entry Point Contract**: Single contract that validates and executes all user operations
+    4. **Paymasters**: Entities that can sponsor gas fees for transactions
+    5. **Wallet Contracts**: Smart contract wallets with customizable authorization logic
+    
+    ### Current Deployment Status
+    
+    The EntryPoint contract at `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` has processed over 78 million user operations. Major wallet providers implementing EIP-4337 include:
+    
+    - Safe (formerly Gnosis Safe)
+    - Alchemy's AA SDK
+    - Biconomy's Smart Account
+    - Zerodev's Kernel
+    - Pimlico's Wallet infrastructure
+    
+    ### Gas Efficiency Analysis
+    
+    Our analysis of on-chain data shows that bundled operations through AA result in average gas savings of 22-35% compared to equivalent operations with traditional EOAs, primarily due to:
+    
+    - Batch processing optimizations
+    - Signature aggregation
+    - Storage slot optimization in wallet contracts
+    
+    ## Impact on DeFi User Experience
+    
+    ### Key Improvement Areas
+    
+    #### 1. Onboarding Friction Reduction
+    
+    Traditional DeFi onboarding requires users to:
+    1. Create a wallet and secure private keys
+    2. Acquire ETH for gas fees
+    3. Understand transaction approval workflows
+    4. Navigate complex interfaces
+    
+    With AA implementations, new users can:
+    1. Sign up with familiar methods (email, social, biometrics)
+    2. Pay gas fees in any token including stablecoins
+    3. Benefit from guided transaction batching
+    4. Use session keys for frequent operations
+    
+    Case Study: Uniswap's AA implementation reduced first-swap time from 11.5 minutes to 37 seconds on average, with a 64% increase in swap completion rate for new users.
+    
+    #### 2. Risk Management
+    
+    AA enables sophisticated security features:
+    - Multi-factor authentication for high-value transactions
+    - Spending limits and whitelisted addresses
+    - Time-based transaction locks
+    - Social recovery options
+    
+    #### 3. Gas Experience
+    
+    - Gasless transactions through paymasters
+    - Gas fee payment in ERC-20 tokens including stablecoins
+    - Fee abstraction behind simple USD-denominated fees
+    
+    #### 4. Transaction Batching
+    
+    Complex DeFi operations that previously required multiple transactions can be executed in a single user operation:
+    
+    Example: A leveraged position in Aave requiring 5 traditional transactions can be executed as one operation, reducing failure points and cognitive load.
+    
+    ## Adoption Metrics and Projections
+    
+    ### Current Adoption (March 2025)
+    
+    - 15.2M AA wallets deployed
+    - ~4.8M monthly active AA wallets
+    - 23% of new DeFi users entering through AA wallets
+    - 78.4M user operations processed
+    
+    ### Growth Projections
+    
+    Based on current adoption curves and planned integrations:
+    
+    - **End of 2025**: 35-45M AA wallets, 40% of new DeFi users
+    - **End of 2026**: 80-100M AA wallets, 65% of new DeFi users
+    - **End of 2027**: Potential for AA to become the dominant wallet paradigm with >50% total DeFi user base
+    
+    ## Security Considerations
+    
+    ### Risk Assessment
+    
+    While AA improves UX, it introduces new security considerations:
+    
+    1. **Increased Contract Complexity**: More code surface area for potential vulnerabilities
+    2. **Bundler Centralization Risks**: Potential for MEV extraction and censorship
+    3. **Paymaster Trust Assumptions**: Users must trust paymasters for sponsored transactions
+    4. **Upgrade Mechanism Risks**: Poorly designed upgrade mechanisms could compromise funds
+    
+    ### Mitigation Strategies
+    
+    - Standardized security audits for AA implementations
+    - Decentralized bundler networks (currently being developed by projects like Flashbots and Alchemy)
+    - Formal verification of core AA components
+    - Gradual upgrade timelock mechanisms
+    
+    ## Challenges to Widespread Adoption
+    
+    ### Technical Challenges
+    
+    - **Relayer Infrastructure Costs**: Running bundler networks requires significant investment
+    - **Cross-Chain Standardization**: Different L1/L2s implementing varying AA standards
+    - **Wallet Recovery Mechanisms**: Balancing security with recoverability
+    
+    ### Ecosystem Challenges
+    
+    - **Developer Education**: Requires shifting development paradigms
+    - **Economic Models**: Sustainable paymaster business models still evolving
+    - **User Mental Models**: Transitioning users to new wallet concepts
+    
+    ## Recommendations for DeFi Protocols
+    
+    Based on our research, DeFi protocols should consider:
+    
+    1. **Early Integration**: Protocols implementing AA support show 30-45% higher new user retention
+    2. **Paymaster Strategies**: Consider sponsoring gas for high-value operations
+    3. **Multi-chain Approach**: Support multiple AA standards during the consolidation phase
+    4. **UX Redesign**: Rethink UX flows to leverage AA capabilities fully
+    5. **Signature Standards**: Adopt Sign-in with Ethereum (SIWE) and EIP-1271 for consistent authentication
+    
+    ## Conclusion
+    
+    Account Abstraction through EIP-4337 represents the most significant improvement to Ethereum's user experience since EIP-1559 standardized gas fees. For DeFi specifically, it removes critical friction points that have historically limited adoption beyond crypto-native users.
+    
+    While technical and ecosystem challenges remain, the trajectory suggests AA will become the dominant paradigm for DeFi interaction within 24-36 months, potentially unlocking the next major wave of adoption by reducing technical barriers that have historically limited DeFi's addressable market.
+    
+    ## References
+    
+    [List of technical papers, on-chain data sources, implementation repositories, and interview sources]
+    """
+    
+    # Display a summary
+    logger.info("Research report completed.")
+    
+    # Show the first few lines
+    summary_lines = simulated_response.split("\n")[:6]
+    logger.info("Report summary (first few lines):")
+    for line in summary_lines:
+        logger.info(f"  {line}")
+    
+    return {
+        "topic": topic,
+        "research": simulated_response
+    }
+
+# =========================
+# Main Function
+# =========================
+
+def main():
+    """Run all examples."""
+    try:
+        # Display society overview
+        society = example_society_overview()
+        
+        # Select which example to run based on command-line arguments
+        if len(sys.argv) > 1:
+            example_name = sys.argv[1]
+            if example_name == "--wallet":
+                example_wallet_analysis(society)
+            elif example_name == "--contract":
+                example_smart_contract_assessment(society)
+            elif example_name == "--draft":
+                example_draft_smart_contract(society)
+            elif example_name == "--cross-chain":
+                example_cross_chain_analysis(society)
+            elif example_name == "--collaboration":
+                example_interactive_collaboration(society)
+            elif example_name == "--dapp":
+                example_dapp_development_concept(society)
+            elif example_name == "--research":
+                example_research_report(society)
+            else:
+                logger.error(f"Unknown example: {example_name}")
+                print_usage()
+                return 1
+        else:
+            # Run a simple demo by default
+            logger.info("\nRunning demonstration example: interactive collaboration")
+            example_interactive_collaboration(society)
+            
+            logger.info("\nTo run other examples, use one of these commands:")
+            print_usage()
+        
+        logger.info("\nExample completed successfully!")
+    except Exception as e:
+        logger.error(f"Error running example: {str(e)}", exc_info=True)
+        return 1
+    
+    return 0
+
+def print_usage():
+    """Print usage information."""
+    print("Usage: python multi_agent.py [EXAMPLE]")
+    print("Available examples:")
+    print("  --wallet         Comprehensive wallet analysis")
+    print("  --contract       Smart contract assessment")
+    print("  --draft          Draft a smart contract")
+    print("  --cross-chain    Cross-chain asset analysis")
+    print("  --collaboration  Interactive agent collaboration")
+    print("  --dapp           Develop a dApp concept")
+    print("  --research       Generate a research report")
+
+if __name__ == "__main__":
+    sys.exit(main())
