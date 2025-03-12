@@ -1,4 +1,4 @@
-# Weenus AI Web3 Module Setup Guide
+# Anus AI Weenus Module Setup Guide
 
 This guide will help you set up and configure the Web3 module for Anus AI, enabling interaction with blockchain networks, smart contracts, tokens, NFTs, and decentralized finance applications.
 
